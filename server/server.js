@@ -20,7 +20,7 @@ app.use(bodyParser.json())
 app.use(require('./routes/usuario'));
 
 //Se realiza la conexion a la base de datos se debe colocar el puerto que usa mongo
-mongoose.connect('mongodb://localhost:27017/cafe', (err, res) => {
+mongoose.connect(process.env.URLDB, (err, res) => {
     if (err) throw err;
     console.log('Base de datos online');
 });
