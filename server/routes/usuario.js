@@ -10,10 +10,15 @@ const _ = require('underscore');
 //se solicita el modelo del esquema
 const Usuario = require('../models/usuario');
 
+//solicito el middleware
+const { verificaToken, verificaAdmin_Role } = require('../middlewares/autenticacion');
+
 const app = express();
 
 //get se usa para solicitar una pagina
-app.get('/usuario', function(req, res) {
+//aqui se usa un middleware
+app.get('/usuario', verificaToken, (req, res) => {
+
     //query son para los parametros opcionales y lo obtiene desde la url
     let desde = req.query.desde || 0;
     desde = Number(desde);
@@ -45,7 +50,7 @@ app.get('/usuario', function(req, res) {
 });
 
 //post se usa para crear nuevos registros
-app.post('/usuario', function(req, res) {
+app.post('/usuario', [verificaToken, verificaAdmin_Role], function(req, res) {
     // body nos lo arroja la libreria bodyParser
     let body = req.body;
 
@@ -79,7 +84,7 @@ app.post('/usuario', function(req, res) {
 });
 
 //put se usa para actualizar los datos
-app.put('/usuario/:id', function(req, res) {
+app.put('/usuario/:id', [verificaToken, verificaAdmin_Role], function(req, res) {
     //de esta manera se obtiene lo que se encuentra en el url
     let id = req.params.id;
     //la funcion pick permite asignar solo los campos solicitados
@@ -102,7 +107,7 @@ app.put('/usuario/:id', function(req, res) {
 });
 
 //delete se usa para borrar los datos
-app.delete('/usuario/:id', function(req, res) {
+app.delete('/usuario/:id', [verificaToken, verificaAdmin_Role], function(req, res) {
     let id = req.params.id;
 
     let cambiaEstado = {

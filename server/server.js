@@ -17,7 +17,7 @@ app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 
 //Se solicita las rutas de la app
-app.use(require('./routes/usuario'));
+app.use(require('./routes/index'));
 
 //Se realiza la conexion a la base de datos se debe colocar el puerto que usa mongo
 mongoose.connect(process.env.URLDB, (err, res) => {
