@@ -5,6 +5,8 @@ require('./config/config');
 const express = require('express');
 //libreria de la base de datos mongoose
 const mongoose = require('mongoose');
+//libreira de express que permite crear rutas
+const path = require('path');
 
 const app = express();
 
@@ -14,7 +16,10 @@ const bodyParser = require('body-parser');
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }))
     // parse application/json
-app.use(bodyParser.json())
+app.use(bodyParser.json());
+
+//habilitar la carpeta public
+app.use(express.static(path.resolve(__dirname, '../public')));
 
 //Se solicita las rutas de la app
 app.use(require('./routes/index'));
